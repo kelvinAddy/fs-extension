@@ -1,18 +1,47 @@
 {
   "anecdotes": [
     {
-      "content": "If it hurts, do it more often",
-      "author": "Jez Humble",
-      "info": "https://martinfowler.com/bliki/FrequencyReducesDifficulty.html",
+      "content": "an anecdote created by playwright 1791483889817",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
       "votes": 0,
-      "id": 1
+      "id": "2QzXEs0T8is"
     },
     {
-      "content": "Premature optimization is the root of all evil",
-      "author": "Donald Knuth",
-      "info": "http://wiki.c2.com/?PrematureOptimization",
+      "content": "an anecdote created by playwright 1791484098414",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
       "votes": 0,
-      "id": 2
+      "id": "yUG7mB_DFk8"
+    },
+    {
+      "content": "an anecdote to be deleted 1791484099137",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
+      "votes": 0,
+      "id": "ZBam7WXpSPY"
+    },
+    {
+      "content": "an anecdote created by playwright 1791484142859",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
+      "votes": 0,
+      "id": "ic8vlXc-FWs"
+    },
+    {
+      "content": "an anecdote created by playwright 1791484305517",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
+      "votes": 0,
+      "id": "uGoYDKWmR14"
+    },
+    {
+      "content": "an anecdote created by playwright 1791490926071",
+      "author": "Playwright",
+      "info": "https://playwright.dev",
+      "votes": 0,
+      "id": "7n-Wz4ugUf0"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

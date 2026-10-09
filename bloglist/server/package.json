@@ -1,0 +1,26 @@
+{
+  "name": "bloglist",
+  "version": "1.0.0",
+  "description": "Blog List web app for saving user favorite blogs",
+  "license": "MIT",
+  "author": "Kelvin Addy",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test node --test",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development node --watch server.js",
+    "start:test" : "cross-env NODE_ENV=test node --watch server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.2.2"
+  }
+}

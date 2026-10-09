@@ -4,10 +4,12 @@ import BlogList from './components/BlogList'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import blogService from './services/blog'
+import NavBar from './components/NavBar'
+import ErrorBoundary from './components/ErrorBoundary'
+import PageNotFound from './components/PageNotFound'
 import loginService from './services/login'
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import NavBar from './components/NavBar'
 
 function App() {
   const navigate = useNavigate()
@@ -18,7 +20,7 @@ function App() {
   const [type, setType] = useState(null)
 
   useEffect(() => {
-    blogService.get().then((data) => setBlogs(data))
+    blogService.get().then(data => setBlogs(data))
   }, [])
 
   const loggedInUser = window.localStorage.getItem('loggedInUser')
@@ -35,7 +37,7 @@ function App() {
     }, 3000)
   }
 
-  const addBlog = async (blog) => {
+  const addBlog = async blog => {
     try {
       const data = await blogService.post(blog)
       setBlogs([...blogs, data])
@@ -47,10 +49,10 @@ function App() {
     }
   }
 
-  const removeBlog = async (id) => {
+  const removeBlog = async id => {
     try {
       await blogService.remove(id)
-      setBlogs(blogs.filter((blog) => blog.id !== id))
+      setBlogs(blogs.filter(blog => blog.id !== id))
       navigate('/')
     } catch (error) {
       const serverError = error?.response?.data?.error
@@ -61,14 +63,14 @@ function App() {
   const updateLikes = async (likedBlog, id) => {
     try {
       const data = await blogService.put(likedBlog, id)
-      setBlogs(blogs.map((blog) => (blog.id === data.id ? data : blog)))
+      setBlogs(blogs.map(blog => (blog.id === data.id ? data : blog)))
     } catch (error) {
       const serverError = error?.response?.data?.error
       updateNofitication(serverError, 'error')
     }
   }
 
-  const logUserIn = async (credentials) => {
+  const logUserIn = async credentials => {
     try {
       const user = await loginService.login(credentials)
       window.localStorage.setItem('loggedInUser', JSON.stringify(user))
@@ -86,21 +88,24 @@ function App() {
     navigate('/')
   }
 
-  const matchedBlog = match ? blogs?.find((blog) => blog.id === match.params.id) : null
+  const matchedBlog = match ? blogs?.find(blog => blog.id === match.params.id) : null
 
   return (
     <>
       <NavBar user={user} handleLogout={handleLogout} />
-      <Notification message={message} type={type} />
-      <Routes>
-        <Route path="/" element={<BlogList blogs={blogs} />} />
-        <Route path="/login" element={<LoginForm logUserIn={logUserIn} />} />
-        <Route
-          path="/blogs/:id"
-          element={<Blog removeBlog={removeBlog} updateLikes={updateLikes} blog={matchedBlog} />}
-        />
-        <Route path="/create" element={<BlogForm addBlog={addBlog} />} />
-      </Routes>
+      <ErrorBoundary>
+        <Notification message={message} type={type} />
+        <Routes>
+          <Route path="/" element={<BlogList blogs={blogs} />} />
+          <Route path="/login" element={<LoginForm logUserIn={logUserIn} />} />
+          <Route
+            path="/blogs/:id"
+            element={<Blog removeBlog={removeBlog} updateLikes={updateLikes} blog={matchedBlog} />}
+          />
+          <Route path="/create" element={<BlogForm addBlog={addBlog} />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </ErrorBoundary>
     </>
   )
 }

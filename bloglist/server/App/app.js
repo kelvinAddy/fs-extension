@@ -11,9 +11,6 @@ app.use(express.json())
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../client/dist')))
-  app.get('/*splat/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'))
-  })
 }
 app.use(middleware.getToken)
 app.use(middleware.requestLogger)
@@ -21,6 +18,10 @@ app.use(middleware.requestLogger)
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+
+app.get('/*splat', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'))
+})
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

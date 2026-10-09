@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const blogSchema = mongoose.Schema(
   {
@@ -14,14 +14,14 @@ const blogSchema = mongoose.Schema(
   {
     toJSON: {
       transform: (doc, resObj) => {
-        resObj.id = resObj._id.toString();
-        delete resObj._id;
-        delete resObj.__v;
+        resObj.id = resObj._id.toString()
+        delete resObj._id
+        delete resObj.__v
       },
     },
   },
-);
+)
 
-const Blog = mongoose.model('Blog', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema)
 
-module.exports = Blog;
+module.exports = Blog

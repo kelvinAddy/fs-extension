@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
   username: {
@@ -22,17 +22,17 @@ const userSchema = mongoose.Schema({
       ref: 'Blog',
     },
   ],
-});
+})
 
 userSchema.set('toJSON', {
   transform: (doc, resObj) => {
-    resObj.id = resObj._id.toString();
-    delete resObj._id;
-    delete resObj.__v;
-    delete resObj.passwordHash;
+    resObj.id = resObj._id.toString()
+    delete resObj._id
+    delete resObj.__v
+    delete resObj.passwordHash
   },
-});
+})
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
 
-module.exports = User;
+module.exports = User

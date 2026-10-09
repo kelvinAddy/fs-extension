@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 
 const BlogList = ({ blogs }) => {
-  if (!blogs) return null
-
   blogs.sort((a, b) => b.likes - a.likes)
   return (
     <>

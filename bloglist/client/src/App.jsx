@@ -90,6 +90,8 @@ function App() {
 
   const matchedBlog = match ? blogs?.find((blog) => blog.id === match.params.id) : null
 
+  if (!blogs) return <div>Loading....</div>
+
   return (
     <>
       <NavBar user={user} handleLogout={handleLogout} />

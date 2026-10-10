@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import { useBlogActions } from '../store/useBlogStore'
-import { useNotificationActions } from '../store/useNotificationStore'
-import { useNavigate } from 'react-router-dom'
+import { useMatch } from 'react-router-dom'
+import { useBlogs } from '../hook'
 
 const Card = styled.div`
   padding: 16px 20px;
@@ -66,34 +65,24 @@ const OutlinedButton = styled.button`
   }
 `
 
-const Blog = ({ blog }) => {
-  const { likeBlog, removeBlog } = useBlogActions()
-  const { updateNotification } = useNotificationActions()
-  const navigate = useNavigate()
-
-  if (!blog) return <div>Loading...</div>
+const Blog = () => {
+  const matched = useMatch('/blogs/:id')
+  const { result, addLike, removeBlog } = useBlogs()
+  const blogs = result.data
+  const blog = matched ? blogs?.find((x) => x.id === matched.params.id) : null
 
   const handleLikes = async () => {
     const likedBlog = {
       ...blog,
       likes: blog.likes + 1,
     }
-    try {
-      await likeBlog(likedBlog, likedBlog.id)
-    } catch (error) {
-      updateNotification(error?.response?.data?.error, 'error')
-    }
+    addLike(likedBlog)
   }
 
   const handleRemoveBlog = async () => {
     const deleteBlog = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
     if (deleteBlog) {
-      try {
-        await removeBlog(blog.id)
-        navigate('/')
-      } catch (error) {
-        updateNotification(error?.response?.data?.error, 'error')
-      }
+      removeBlog(blog.id)
     }
   }
   return (

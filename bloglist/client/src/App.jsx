@@ -9,20 +9,12 @@ import PageNotFound from './components/PageNotFound'
 import loginService from './services/login'
 import { Routes, Route, useNavigate, useMatch } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useNotificationActions } from './store/useNotificationStore'
-import { useBlogs, useBlogActions } from './store/useBlogStore'
+import { useBlogs } from './hook'
 
 function App() {
   const navigate = useNavigate()
-  const match = useMatch('/blogs/:id')
   const [user, setUser] = useState(null)
-  const blogs = useBlogs()
-  const { initialize } = useBlogActions()
-  const { updateNotification } = useNotificationActions()
-
-  useEffect(() => {
-    initialize()
-  }, [initialize])
+  const { result } = useBlogs()
 
   const loggedInUser = window.localStorage.getItem('loggedInUser')
   if (!user && loggedInUser) {
@@ -48,9 +40,8 @@ function App() {
     navigate('/')
   }
 
-  const matchedBlog = match ? blogs?.find((blog) => blog.id === match.params.id) : null
-
-  if (!blogs) return <div>Loading....</div>
+  if (result.isPending) return <div>Loading...</div>
+  if (result.isError) return <div>Something went wrong</div>
 
   return (
     <>
@@ -58,9 +49,9 @@ function App() {
       <ErrorBoundary>
         <Notification />
         <Routes>
-          <Route path="/" element={<BlogList />} />
+          <Route path="/" element={<BlogList blogs={result.data} />} />
           <Route path="/login" element={<LoginForm logUserIn={logUserIn} />} />
-          <Route path="/blogs/:id" element={<Blog blog={matchedBlog} />} />
+          <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/create" element={<BlogForm />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

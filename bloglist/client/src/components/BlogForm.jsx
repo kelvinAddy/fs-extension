@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import { useBlogActions } from '../store/useBlogStore'
-import { useNotificationActions } from '../store/useNotificationStore'
+import { useBlogs } from '../hook'
 import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
@@ -61,9 +60,7 @@ const Button = styled.button`
 `
 
 const BlogForm = () => {
-  const { createBlog } = useBlogActions()
-  const { updateNotification } = useNotificationActions()
-  const navigate = useNavigate()
+  const { createBlog } = useBlogs()
 
   const handleAddBlog = async (formData) => {
     const blog = {
@@ -71,13 +68,7 @@ const BlogForm = () => {
       author: formData.get('author'),
       title: formData.get('title'),
     }
-    try {
-      await createBlog(blog)
-      navigate('/')
-      updateNotification(`a new blog ${blog.title} added`, 'success')
-    } catch (error) {
-      updateNotification(error?.response?.data?.error, 'error')
-    }
+    createBlog(blog)
   }
   return (
     <Container>

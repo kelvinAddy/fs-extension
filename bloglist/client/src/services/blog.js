@@ -15,24 +15,24 @@ const extractToken = () => {
 const post = async (blog) => {
   const config = { headers: { Authorization: extractToken() } }
   const res = await axios.post(baseUrl, blog, config)
-  return res.data
+  return await res.data
 }
 
 const get = async () => {
   const res = await axios.get(baseUrl)
-  return res.data
+  return await res.data
 }
 
 const put = async (blog, id) => {
   const config = { headers: { Authorization: extractToken() } }
   const res = await axios.put(`${baseUrl}/${id}`, blog, config)
-  return res.data
+  return await res.data
 }
 
 const remove = async (id) => {
   const config = { headers: { Authorization: extractToken() } }
   const res = await axios.delete(`${baseUrl}/${id}`, config)
-  return res.data
+  return await res.data
 }
 
 export default { post, get, put, remove }

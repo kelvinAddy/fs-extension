@@ -1,16 +1,22 @@
 import { create } from 'zustand'
 
+let timeOutId = null
+
 const useNotificationStore = create((set) => ({
-  message: null,
+  notificaiton: { message: null, status: null },
   actions: {
-    updateMessage: (value) => {
-      set(() => ({ message: value }))
-      setTimeout(() => {
-        set({ message: null })
+    updateNotification: (message, status) => {
+      set(() => ({ notificaiton: { message: message, status: status } }))
+
+      clearTimeout(timeOutId)
+      timeOutId = setTimeout(() => {
+        set(() => ({ notificaiton: { message: null, status: null } }))
       }, 5000)
     },
   },
 }))
 
-export const useNotification = () => useNotificationStore((state) => state.message)
+export const useNotification = () => useNotificationStore((state) => state.notificaiton)
 export const useNotificationActions = () => useNotificationStore((state) => state.actions)
+
+export default useNotificationStore

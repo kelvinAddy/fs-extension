@@ -1,4 +1,7 @@
 import styled from 'styled-components'
+import { useBlogActions } from '../store/useBlogStore'
+import { useNotificationActions } from '../store/useNotificationStore'
+import { useNavigate } from 'react-router-dom'
 
 const Card = styled.div`
   padding: 16px 20px;
@@ -63,20 +66,34 @@ const OutlinedButton = styled.button`
   }
 `
 
-const Blog = ({ removeBlog, updateLikes, blog }) => {
-  if (!blog) return
+const Blog = ({ blog }) => {
+  const { likeBlog, removeBlog } = useBlogActions()
+  const { updateNotification } = useNotificationActions()
+  const navigate = useNavigate()
+
+  if (!blog) return <div>Loading...</div>
+
   const handleLikes = async () => {
     const likedBlog = {
       ...blog,
       likes: blog.likes + 1,
     }
-    updateLikes(likedBlog, likedBlog.id)
+    try {
+      await likeBlog(likedBlog, likedBlog.id)
+    } catch (error) {
+      updateNotification(error?.response?.data?.error, 'error')
+    }
   }
 
-  const handleRemoveBlog = () => {
+  const handleRemoveBlog = async () => {
     const deleteBlog = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
     if (deleteBlog) {
-      removeBlog(blog.id)
+      try {
+        await removeBlog(blog.id)
+        navigate('/')
+      } catch (error) {
+        updateNotification(error?.response?.data?.error, 'error')
+      }
     }
   }
   return (

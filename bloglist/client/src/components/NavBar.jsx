@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useUser } from '../hook'
 
 const Nav = styled.nav`
   display: flex;
@@ -59,7 +60,9 @@ const LogoutButton = styled.button`
   }
 `
 
-const NavBar = ({ user, handleLogout }) => {
+const NavBar = () => {
+  const { storedUser: user, logUserOut } = useUser()
+
   return (
     <Nav>
       <Brand>Blog App</Brand>
@@ -73,7 +76,7 @@ const NavBar = ({ user, handleLogout }) => {
           </NavLink>
         )}
         {user ? (
-          <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+          <LogoutButton onClick={logUserOut}>Logout</LogoutButton>
         ) : (
           <NavLink style={{ padding: 5 }} to={'/login'}>
             Login

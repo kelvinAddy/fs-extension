@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useUser } from '../hook'
 
 const Container = styled.div`
   width: 280px;
@@ -58,7 +59,9 @@ const Button = styled.button`
   }
 `
 
-const LoginForm = ({ logUserIn }) => {
+const LoginForm = () => {
+  const { logUserIn } = useUser()
+
   const handleLogin = async (formData) => {
     const username = formData.get('username')
     const password = formData.get('password')

@@ -1,7 +1,12 @@
+import { useState } from 'react'
 import blogService from '../services/blog'
 import { useNotificationActions } from '../store/useNotificationStore'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import UserContext from '../context/UserContext'
+
+export const useUser = () => useContext(UserContext)
 
 export const useBlogs = () => {
   const queryClient = useQueryClient()
@@ -69,4 +74,34 @@ export const useBlogs = () => {
     removeBlog: (id) => removeBlogMutation.mutate(id),
     addLike: (blog) => addLikeMutation.mutate(blog),
   }
+}
+
+export const useLocalStorage = (key, initValue) => {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initValue
+    } catch (error) {
+      return initValue
+    }
+  })
+
+  const setValue = (value) => {
+    try {
+      setStoredValue(value)
+      window.localStorage.setItem(key, JSON.stringify(value))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const removeValue = () => {
+    try {
+      window.localStorage.removeItem(key)
+      setStoredValue(null)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  return [storedValue, setValue, removeValue]
 }

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useNotification } from '../store/useNotificationStore'
 
 const colors = {
   success: { bg: '#edf7ed', text: '#1e4620', icon: '#4caf50' },
@@ -29,7 +30,8 @@ const Icon = styled.svg`
   stroke-linejoin: round;
 `
 
-const Notification = ({ message, type }) => {
+const Notification = () => {
+  const { message, status: type } = useNotification()
   if (!message) return
   return (
     <Wrapper $type={type} role="status">

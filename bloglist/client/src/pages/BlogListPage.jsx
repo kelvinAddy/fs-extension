@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const BlogList = ({ blogs }) => {
+const BlogListPage = ({ blogs }) => {
   blogs.sort((a, b) => b.likes - a.likes)
   return (
     <>
@@ -16,4 +16,4 @@ const BlogList = ({ blogs }) => {
   )
 }
 
-export default BlogList
+export default BlogListPage

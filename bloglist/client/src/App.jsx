@@ -1,11 +1,11 @@
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import BlogList from './components/BlogList'
+import BlogListPage from './pages/BlogListPage'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import NavBar from './components/NavBar'
 import ErrorBoundary from './components/ErrorBoundary'
-import PageNotFound from './components/PageNotFound'
+import PageNotFound from './pages/PageNotFound'
 import { Routes, Route } from 'react-router-dom'
 import { useBlogs } from './hook'
 
@@ -21,7 +21,7 @@ function App() {
       <ErrorBoundary>
         <Notification />
         <Routes>
-          <Route path="/" element={<BlogList blogs={result.data} />} />
+          <Route path="/" element={<BlogListPage blogs={result.data} />} />
           <Route path="/users" />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/blogs/:id" element={<Blog />} />

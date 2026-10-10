@@ -23,9 +23,9 @@ const get = async () => {
   return await res.data
 }
 
-const put = async (blog, id) => {
+const put = async (blog) => {
   const config = { headers: { Authorization: extractToken() } }
-  const res = await axios.put(`${baseUrl}/${id}`, blog, config)
+  const res = await axios.put(`${baseUrl}/${blog.id}`, blog, config)
   return await res.data
 }
 

@@ -67,7 +67,11 @@ const OutlinedButton = styled.button`
 
 const Blog = () => {
   const matched = useMatch('/blogs/:id')
-  const { result, addLike, removeBlog } = useBlogs()
+  const { result, addLike, removeBlog, addComment } = useBlogs()
+
+  if (result.isPending) return <div>Loading...</div>
+  if (result.isError) return <div>Loading...</div>
+
   const blogs = result.data
   const blog = matched ? blogs?.find((x) => x.id === matched.params.id) : null
 
@@ -85,6 +89,11 @@ const Blog = () => {
       removeBlog(blog.id)
     }
   }
+
+  const handleComment = async (formData) => {
+    addComment({ text: formData.get('comment') }, blog.id)
+  }
+
   return (
     <Card>
       <Title>{blog.title}</Title>
@@ -103,6 +112,18 @@ const Blog = () => {
           remove
         </OutlinedButton>
       </Actions>
+      <div>
+        <p>Comments</p>
+        <form action={handleComment}>
+          <input name="comment" type="text" placeholder="add a comment" />
+          <button>ADD COMMENT</button>
+        </form>
+        <ul>
+          {blog.comments.map((comment) => (
+            <li key={comment.id}>{comment.text}</li>
+          ))}
+        </ul>
+      </div>
     </Card>
   )
 }

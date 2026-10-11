@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import blogService from '../services/blog'
+import userService from '../services/users'
 import { useNotificationActions } from '../store/useNotificationStore'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +8,21 @@ import { useContext } from 'react'
 import UserContext from '../context/UserContext'
 
 export const useUser = () => useContext(UserContext)
+
+export const useUsersData = () => {
+  const result = useQuery({
+    queryKey: ['users'],
+    queryFn: userService.getUsers,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  })
+
+  return {
+    isPending: result.isPending,
+    isError: result.isError,
+    users: result.data,
+  }
+}
 
 export const useBlogs = () => {
   const queryClient = useQueryClient()
@@ -68,11 +84,31 @@ export const useBlogs = () => {
     },
   })
 
+  const createCommentMutation = useMutation({
+    mutationFn: ({ textObject, id }) => blogService.postComment(textObject, id),
+
+    onSuccess: (data, variables) => {
+      const blogs = queryClient.getQueryData(['blogs'])
+      console.log(data, variables)
+      queryClient.setQueryData(
+        ['blogs'],
+        blogs.map((blog) =>
+          blog.id === variables.id ? { ...blog, comments: blog.comments.concat(data) } : blog,
+        ),
+      )
+    },
+
+    onError: (error) => {
+      updateNotification(error?.response?.data?.error ?? 'Error encountered', 'error')
+    },
+  })
+
   return {
     result,
     createBlog: (blog) => createBlogMutatation.mutate(blog),
     removeBlog: (id) => removeBlogMutation.mutate(id),
     addLike: (blog) => addLikeMutation.mutate(blog),
+    addComment: (textObject, id) => createCommentMutation.mutate({ textObject, id }),
   }
 }
 

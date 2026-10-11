@@ -6,23 +6,20 @@ import Notification from './components/Notification'
 import NavBar from './components/NavBar'
 import ErrorBoundary from './components/ErrorBoundary'
 import PageNotFound from './pages/PageNotFound'
+import UsersPage from './pages/UsersPage'
+import User from './components/User'
 import { Routes, Route } from 'react-router-dom'
-import { useBlogs } from './hook'
 
 function App() {
-  const { result } = useBlogs()
-
-  if (result.isPending) return <div>Loading...</div>
-  if (result.isError) return <div>Something went wrong</div>
-
   return (
     <>
       <NavBar />
       <ErrorBoundary>
         <Notification />
         <Routes>
-          <Route path="/" element={<BlogListPage blogs={result.data} />} />
-          <Route path="/users" />
+          <Route path="/" element={<BlogListPage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/users/:id" element={<User />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/create" element={<BlogForm />} />

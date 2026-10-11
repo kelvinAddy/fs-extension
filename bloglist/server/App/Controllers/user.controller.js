@@ -1,6 +1,5 @@
 const User = require('../Models/user.model')
 const bcrypt = require('bcrypt')
-const { error } = require('../Utils/logger')
 
 exports.get = async (req, res) => {
   const data = await User.find({}).populate('blogs', {

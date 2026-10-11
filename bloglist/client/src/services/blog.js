@@ -18,6 +18,12 @@ const post = async (blog) => {
   return await res.data
 }
 
+const postComment = async (textObject, id) => {
+  const config = { headers: { Authorization: extractToken() } }
+  const res = await axios.post(`${baseUrl}/${id}/comments`, textObject, config)
+  return await res.data
+}
+
 const get = async () => {
   const res = await axios.get(baseUrl)
   return await res.data
@@ -35,4 +41,4 @@ const remove = async (id) => {
   return await res.data
 }
 
-export default { post, get, put, remove }
+export default { post, get, put, remove, postComment }

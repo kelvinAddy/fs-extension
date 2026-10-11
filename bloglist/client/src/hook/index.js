@@ -118,6 +118,7 @@ export const useLocalStorage = (key, initValue) => {
       const item = window.localStorage.getItem(key)
       return item ? JSON.parse(item) : initValue
     } catch (error) {
+      console.error(error, 'Your initial value will be used instead')
       return initValue
     }
   })

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { useBlogs } from '../hook'
-import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   width: 400px;

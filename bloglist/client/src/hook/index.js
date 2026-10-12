@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import blogService from '../services/blog'
-import userService from '../services/users'
+import usersService from '../services/users'
 import { useNotificationActions } from '../store/useNotificationStore'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
@@ -12,7 +11,7 @@ export const useUser = () => useContext(UserContext)
 export const useUsersData = () => {
   const result = useQuery({
     queryKey: ['users'],
-    queryFn: userService.getUsers,
+    queryFn: usersService.getAllUsers,
     retry: 1,
     refetchOnWindowFocus: false,
   })
@@ -89,7 +88,6 @@ export const useBlogs = () => {
 
     onSuccess: (data, variables) => {
       const blogs = queryClient.getQueryData(['blogs'])
-      console.log(data, variables)
       queryClient.setQueryData(
         ['blogs'],
         blogs.map((blog) =>
@@ -110,35 +108,4 @@ export const useBlogs = () => {
     addLike: (blog) => addLikeMutation.mutate(blog),
     addComment: (textObject, id) => createCommentMutation.mutate({ textObject, id }),
   }
-}
-
-export const useLocalStorage = (key, initValue) => {
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initValue
-    } catch (error) {
-      console.error(error, 'Your initial value will be used instead')
-      return initValue
-    }
-  })
-
-  const setValue = (value) => {
-    try {
-      setStoredValue(value)
-      window.localStorage.setItem(key, JSON.stringify(value))
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const removeValue = () => {
-    try {
-      window.localStorage.removeItem(key)
-      setStoredValue(null)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  return [storedValue, setValue, removeValue]
 }

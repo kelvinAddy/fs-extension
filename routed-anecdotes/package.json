@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --port 3001 db.json",
-    "server:test" : "json-server --port 3001 db.json"
+    "server:test" : "json-server --port 3001 db.json",
+    "start:test" : "vite"
   },
   "dependencies": {
     "react": "^19.2.8",

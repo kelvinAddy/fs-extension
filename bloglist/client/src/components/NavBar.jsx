@@ -68,23 +68,23 @@ const NavBar = () => {
       <Brand>Blog App</Brand>
       <Links>
         <NavLink style={{ padding: 5 }} to={'/'}>
-          BLOGS
+          blogs
         </NavLink>
         {user && (
           <>
             <NavLink style={{ padding: 5 }} to={'/users'}>
-              USERS
+              users
             </NavLink>
             <NavLink style={{ padding: 5 }} to={'/create'}>
-              NEW BLOG
+              new blog
             </NavLink>
           </>
         )}
         {user ? (
-          <LogoutButton onClick={logUserOut}>LOGOUT</LogoutButton>
+          <LogoutButton onClick={logUserOut}>logout</LogoutButton>
         ) : (
           <NavLink style={{ padding: 5 }} to={'/login'}>
-            LOGIN
+            login
           </NavLink>
         )}
       </Links>

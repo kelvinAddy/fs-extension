@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (process.env.NODE_ENV === 'test') {
-  app.use('/api/test', testRouter)
+  app.use('/api/testing', testRouter)
 }
 
 app.use(middleware.getToken)

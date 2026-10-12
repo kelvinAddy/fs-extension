@@ -1,15 +1,17 @@
 import axios from 'axios'
+import persistentUser from './persistentUser'
 
 const baseUrl = '/api/blogs'
 
 const extractToken = () => {
-  const userJSON = window.localStorage.getItem('loggedInUser')
+  const { getUser } = persistentUser
 
-  if (!userJSON) return null
+  const userObj = getUser('loggedInUser', null)
+  const token = userObj?.token
 
-  const userObj = JSON.parse(userJSON)
-  const token = `Bearer ${userObj.token}`
-  return token
+  if (!token) return null
+
+  return `Bearer ${token}`
 }
 
 const post = async (blog) => {

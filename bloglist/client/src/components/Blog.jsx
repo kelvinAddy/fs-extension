@@ -102,7 +102,7 @@ const Blog = () => {
       <Url href={`${blog.url}`} target="_blank" rel="noreferrer">
         {blog.url}
       </Url>
-      <AddedBy>Added by {blog?.user?.name ?? blog?.user?.username}</AddedBy>
+      <AddedBy>Added by {blog.user.name ?? blog.user.username}</AddedBy>
       <Actions>
         {blog.likes} likes{' '}
         <OutlinedButton $color="#1976d2" onClick={handleLikes}>

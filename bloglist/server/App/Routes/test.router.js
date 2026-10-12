@@ -1,13 +1,14 @@
-import User from '../Models/user.model'
-import Blog from '../Models/blog.model'
-import Comment from '../Models/comment.model'
+const User = require('../Models/user.model')
+const Blog = require('../Models/blog.model')
+const Comment = require('../Models/comment.model')
 
-const router = import('express').Router()
+const router = require('express').Router()
 
 router.post('/reset', async (req, res) => {
   await User.deleteMany({})
   await Blog.deleteMany({})
   await Comment.deleteMany({})
+  res.status(204).end()
 })
 
-export default router
+module.exports = router
